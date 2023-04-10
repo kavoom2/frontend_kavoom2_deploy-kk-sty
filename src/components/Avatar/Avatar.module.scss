@@ -6,11 +6,14 @@
 }
 
 .image-container {
+  display: flex;
   width: 56px;
   height: 56px;
 
   border-radius: 100%;
   background-color: #{variables.$token-color-white};
+
+  overflow: hidden;
 
   img {
     width: 100%;
