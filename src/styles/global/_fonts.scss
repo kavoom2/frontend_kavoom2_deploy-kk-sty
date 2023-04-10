@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'AppleSDGothicNeo';
+  font-weight: 600;
+  font-display: swap;
+  src: local('AppleSDGothicNeoSB'),
+    url('~@/assets/fonts/AppleSDGothicNeoSB.woff2') format('woff2'),
+    url('~@/assets/fonts/AppleSDGothicNeoSB.woff') format('woff'),
+    url('~@/assets/fonts/AppleSDGothicNeoSB.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'AppleSDGothicNeo';
+  font-weight: bold;
+  font-display: swap;
+  src: local('AppleSDGothicNeoB'),
+    url('~@/assets/fonts/AppleSDGothicNeoB.woff2') format('woff2'),
+    url('~@/assets/fonts/AppleSDGothicNeoB.woff') format('woff'),
+    url('~@/assets/fonts/AppleSDGothicNeoB.ttf') format('ttf');
+}

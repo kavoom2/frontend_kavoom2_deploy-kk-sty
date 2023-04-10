@@ -1,0 +1,17 @@
+{
+  "extends": ["react-app"],
+  "plugins": ["react-hooks"],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "no-multiple-empty-lines": "error",
+    "comma-dangle": ["error", "always-multiline"],
+    "eol-last": ["error", "always"],
+    "semi": [1, "always"],
+    "quotes": ["off", "single"],
+    "no-tabs": "error",
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" }
+    ]
+  }
+}

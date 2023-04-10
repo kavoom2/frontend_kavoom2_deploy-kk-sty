@@ -1,0 +1,146 @@
+{
+  "charcoal-grey": {
+    "value": "rgb(54, 58, 66)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "643243426819a42052aed227",
+        "type": "Color"
+      }
+    }
+  },
+  "black": {
+    "value": "rgb(0, 0, 0)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "5d6c93fa38345e9b5aaece7e",
+        "type": "Color"
+      }
+    }
+  },
+  "battleship-grey": {
+    "value": "rgb(116, 116, 126)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "61247506299ec413548b9024",
+        "type": "Color"
+      }
+    }
+  },
+  "pale-lilac": {
+    "value": "rgb(230, 230, 235)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "6125e53c9fdb71b36043b4b6",
+        "type": "Color"
+      }
+    }
+  },
+  "black-10": {
+    "value": "rgba(0, 0, 0, 0.1)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "628114750375e9139032e6cd",
+        "type": "Color"
+      }
+    }
+  },
+  "pale-grey": {
+    "value": "rgb(249, 249, 251)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "62a99b158cef002b812cdc13",
+        "type": "Color"
+      }
+    }
+  },
+  "cool-grey": {
+    "value": "rgb(164, 166, 176)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "63638e7ede1579b164886504",
+        "type": "Color"
+      }
+    }
+  },
+  "purple": {
+    "value": "rgb(91, 54, 172)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "64318f75f53a2c20f11d3575",
+        "type": "Color"
+      }
+    }
+  },
+  "white": {
+    "value": "rgb(255, 255, 255)",
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "6431a15c244c4d20f756fefb",
+        "type": "Color"
+      }
+    }
+  }
+}

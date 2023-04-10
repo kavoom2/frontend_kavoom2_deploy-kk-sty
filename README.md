@@ -12,9 +12,9 @@
 
 ### 실행환경
 
-- nodejs 14
-- iOS 13.0
-- android 10
+- nodejs 14 ^14
+- iOS 13.0 -> Safari 13 >=
+- android 10 -> Chrome 76 >=
 
 ### 필수 요구사항
 

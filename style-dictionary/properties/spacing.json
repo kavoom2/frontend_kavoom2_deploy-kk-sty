@@ -1,0 +1,21 @@
+{
+  "spacing-xxs": {
+    "value": 4,
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "627a21c1c72b3611186b3181",
+        "type": "SpacingToken"
+      },
+      "spacing_section": {
+        "id": "5e4541fb82fd45c116884fdb"
+      }
+    }
+  }
+}

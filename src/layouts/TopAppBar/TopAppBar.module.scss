@@ -1,0 +1,47 @@
+@use "~@/styles/_variables" as variables;
+
+.main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  width: 100%;
+  height: 44px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: calc(2 * #{variables.$token-spacing-xxs})
+    calc(3 * #{variables.$token-spacing-xxs})
+    calc(3 * #{variables.$token-spacing-xxs})
+    calc(3 * #{variables.$token-spacing-xxs});
+
+  background-color: #{variables.$token-color-purple};
+
+  overflow: hidden;
+}
+
+.headline {
+  display: block;
+}
+
+.leading-menu-items {
+  display: flex;
+  align-items: center;
+
+  & > *:not(:first-child) {
+    margin: 0px 0px 0px #{variables.$token-spacing-xxs};
+  }
+}
+
+.trailing-menu-items {
+  display: flex;
+  align-items: center;
+
+  & > *:not(:first-child) {
+    margin: 0px 0px 0px #{variables.$token-spacing-xxs};
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "text-style": {
+    "value": {
+      "font": {
+        "family": "AppleSDGothicNeo",
+        "size": 14,
+        "weight": 600,
+        "stretch": 1
+      }
+    },
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "5efdf8f647b2a07ffca96544",
+        "type": "TextStyle"
+      }
+    }
+  },
+  "text-style-2": {
+    "value": {
+      "font": {
+        "family": "AppleSDGothicNeo",
+        "size": 14,
+        "weight": 600,
+        "stretch": 1
+      }
+    },
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "6285fa7bdb78010f9edddfe1",
+        "type": "TextStyle"
+      }
+    }
+  },
+  "text-style-3": {
+    "value": {
+      "font": {
+        "family": "AppleSDGothicNeo",
+        "size": 17,
+        "weight": 700,
+        "stretch": 1
+      },
+      "letter_spacing": -0.1214285714285714
+    },
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "62ef629c90fbe31589787d90",
+        "type": "TextStyle"
+      }
+    }
+  },
+  "text-style-4": {
+    "value": {
+      "font": {
+        "family": "AppleSDGothicNeo",
+        "size": 16,
+        "weight": 700,
+        "stretch": 1
+      },
+      "letter_spacing": -0.2
+    },
+    "metadata": {
+      "source": {
+        "project": {
+          "id": "5d527bdedd6f4cb2bffa5538",
+          "name": "[카카오스타일] Frontend",
+          "platform": "web"
+        }
+      },
+      "resource": {
+        "id": "63638855a624eaaf858e804e",
+        "type": "TextStyle"
+      }
+    }
+  }
+}
