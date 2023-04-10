@@ -1,1 +1,2 @@
-export { default } from "./TimeLabel";
+import TimeLabel from "./TimeLabel";
+export default TimeLabel;

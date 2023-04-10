@@ -9,5 +9,9 @@ html {
 body {
   min-height: 100vh;
   background-color: white;
-  font-family: "AppleSDGothicNeo", "Helvetica Neue", sans-serif;
+  font-family: "AppleSDGothicNeo", Helvetica, sans-serif;
+
+  * {
+    font-family: inherit;
+  }
 }

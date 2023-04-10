@@ -1,14 +1,10 @@
 @use "~@/styles/_variables" as variables;
 @use "~@/styles/_common" as common;
 
-.main {
-  display: block;
-}
-
 .ellipsis-single {
-  @include common.text-ellipsis(1);
+  @include common.text-ellipsis-single;
 }
 
-.ellipsis-multi {
-  @include common.text-ellipsis(var(--text-ellipsis-lines, 2));
+.ellipsis-multiple {
+  @include common.text-ellipsis-multiple;
 }
