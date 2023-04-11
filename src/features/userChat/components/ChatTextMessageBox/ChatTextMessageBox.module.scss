@@ -1,0 +1,52 @@
+@use "~@/styles/_variables" as variables;
+@use "~@/styles/_common" as common;
+
+.main {
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.message-box {
+  max-width: 80%;
+
+  padding: 12px;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  line-height: 1.4;
+
+  text-align: left;
+  word-break: break-all;
+
+  border-radius: 12px;
+}
+
+.own-message {
+  flex-direction: row-reverse;
+
+  .message-box {
+    background-color: #{variables.$token-color-purple};
+    color: #{variables.$token-color-white};
+    box-shadow: 0 2px 4px 0 rgba(91, 56, 177, 0.4);
+  }
+
+  .time-label {
+    margin: 0px #{variables.$token-spacing-xxs} 0px 0px;
+  }
+}
+
+.other-message {
+  .message-box {
+    background-color: #{variables.$token-color-white};
+    color: #{variables.$token-color-charcoal-grey};
+    box-shadow: 0 2px 4px 0 rgba(variables.$token-color-black, 0.1);
+  }
+
+  .time-label {
+    margin: 0px 0px 0px #{variables.$token-spacing-xxs};
+  }
+}

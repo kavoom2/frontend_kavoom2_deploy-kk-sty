@@ -1,3 +1,7 @@
+import {
+  getHourAndMinutesLabel,
+  getRelativeDateLabel,
+} from "@/utils/dateFormatter";
 import { date, withKnobs } from "@storybook/addon-knobs";
 import TimeLabel from "./TimeLabel";
 
@@ -13,7 +17,7 @@ export const Default = () => {
   const dateProp = new Date();
   const dateValue = date("Date", dateProp);
 
-  return <TimeLabel date={dateValue} />;
+  return <TimeLabel date={dateValue} formatter={getHourAndMinutesLabel} />;
 };
 
 export const Examples = (args: any) => {
@@ -45,10 +49,22 @@ export const Examples = (args: any) => {
       >
         <h3>Format distance to now (일주일 전 ~ 현재)</h3>
 
-        <TimeLabel {...args} date={now} />
-        <TimeLabel {...args} date={tenMinutesAgo} />
-        <TimeLabel {...args} date={oneHourAgo} />
-        <TimeLabel {...args} date={oneDayAgo} />
+        <TimeLabel {...args} date={now} formatter={getRelativeDateLabel} />
+        <TimeLabel
+          {...args}
+          date={tenMinutesAgo}
+          formatter={getRelativeDateLabel}
+        />
+        <TimeLabel
+          {...args}
+          date={oneHourAgo}
+          formatter={getRelativeDateLabel}
+        />
+        <TimeLabel
+          {...args}
+          date={oneDayAgo}
+          formatter={getRelativeDateLabel}
+        />
       </div>
 
       <div
@@ -59,8 +75,31 @@ export const Examples = (args: any) => {
         }}
       >
         <h3>yyyy년 M월 d일 (... ~ 일주일 전)</h3>
-        <TimeLabel {...args} date={oneWeekAgo} />
-        <TimeLabel {...args} date={oneYearAgo} />
+        <TimeLabel
+          {...args}
+          date={oneWeekAgo}
+          formatter={getRelativeDateLabel}
+        />
+        <TimeLabel
+          {...args}
+          date={oneYearAgo}
+          formatter={getRelativeDateLabel}
+        />
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+        }}
+      >
+        <h3>hh:mm</h3>
+        <TimeLabel
+          {...args}
+          date="2023-04-11T13:15:30.000Z"
+          formatter={getHourAndMinutesLabel}
+        />
       </div>
     </>
   );

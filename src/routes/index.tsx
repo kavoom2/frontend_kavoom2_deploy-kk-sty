@@ -12,20 +12,14 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route index element={<Navigate to="/list" />} />
-      <Route
-        path="list"
-        element={<UserChatList />}
-        //  lazy={() => import("@/pages/UserChatList")}
-      />
+      <Route path="list" element={<UserChatList />} />
 
       <Route path="room/">
         <Route index element={<Navigate to="/list" />} />
-        <Route
-          path=":roomId"
-          element={<UserChatRoom />}
-          // lazy={() => import("@/pages/UserChatRoom")}
-        />
+        <Route path=":roomId" element={<UserChatRoom />} />
       </Route>
+
+      <Route path="*" element={<Navigate to="/list" />} />
     </Route>,
   ),
 );

@@ -1,0 +1,15 @@
+@use "~@/styles/_variables" as variables;
+@use "~@/styles/_common" as common;
+
+.main {
+  width: 100%;
+  pointer-events: none;
+}
+
+.size-small {
+  height: 10px;
+}
+
+.size-medium {
+  height: calc(#{variables.$token-spacing-xxs} * 4);
+}

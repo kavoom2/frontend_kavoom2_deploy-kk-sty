@@ -4,15 +4,26 @@
 .main {
   display: inline-block;
 
-  font-size: 0.688rem;
-  font-weight: 500;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
   color: #{variables.$token-color-charcoal-grey};
 
   text-align: right;
   white-space: nowrap;
 
   opacity: 0.4;
+}
+
+.size-small {
+  font-size: 0.688rem;
+  font-weight: 500;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.size-medium {
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
 }

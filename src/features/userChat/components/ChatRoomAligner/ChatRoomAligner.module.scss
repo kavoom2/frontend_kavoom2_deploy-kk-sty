@@ -1,0 +1,13 @@
+@use "~@/styles/_variables" as variables;
+@use "~@/styles/_common" as common;
+
+.main {
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+}
+
+.own-message {
+  justify-content: flex-end;
+}

@@ -1,0 +1,11 @@
+@use "~@/styles/_variables" as variables;
+@use "~@/styles/_common" as common;
+
+$section-spacing-x: calc(#{variables.$token-spacing-xxs} * 4);
+$section-spacing-bottom: 90px;
+
+.main {
+  width: 100%;
+
+  padding: 0px $section-spacing-x $section-spacing-bottom $section-spacing-x;
+}

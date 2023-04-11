@@ -1,3 +1,5 @@
+import { getTimestamp } from "@/utils/dateFormatter";
+
 type TextMessage = {
   type: "text";
   text: string;
@@ -6,125 +8,168 @@ type TextMessage = {
 type ImageMessage = {
   type: "image";
   filePath: string;
-  fileType: string;
 };
 
-type ChatMessage =
+export type ChatMessage =
   | {
       id: string;
       sender: string;
-      senderName: string;
-      senderProfilePicture: string;
-      messageType: TextMessage["type"];
       message: TextMessage;
-      timestamp: number;
+      timestamp: string;
       readBy: string[];
     }
   | {
       id: string;
       sender: string;
-      senderName: string;
-      senderProfilePicture: string;
-      messageType: ImageMessage["type"];
       message: ImageMessage;
-      timestamp: number;
+      timestamp: string;
       readBy: string[];
     };
 
-type ChatRoomData = {
+export type ChatRoomData = {
   roomName: string;
   users: string[];
   messages: ChatMessage[];
 };
 
-type UserData = {
+export type UserData = {
   name: string;
   profilePicture: string;
 };
 
+export const demoUserId = "user-0";
+
 const userDatas: Record<string, UserData> = {
-  "user-0": {
+  [demoUserId]: {
     name: "John Doe",
-    profilePicture: "",
+    profilePicture: "https://avatars.githubusercontent.com/u/22580992?v=4",
   },
   "user-1": {
-    name: "Jane Doe",
-    profilePicture: "",
+    name: "Marry",
+    profilePicture: "https://avatars.githubusercontent.com/u/22580993?v=4",
   },
   "user-2": {
-    name: "John Smith",
-    profilePicture: "",
+    name: "George",
+    profilePicture: "https://avatars.githubusercontent.com/u/22580994?v=4",
   },
 };
 
 const chatRoomsDatas: Record<string, ChatRoomData> = {
   "room-1": {
-    roomName: "John Doe",
-    users: ["user-0", "user-1"],
+    roomName: userDatas["user-1"].name,
+    users: [demoUserId, "user-1"],
     messages: [
       {
-        id: "message-123",
-        sender: "user-1",
-        senderName: "John Doe",
-        senderProfilePicture: "",
-        messageType: "text",
+        id: "message-122",
+        sender: demoUserId,
         message: {
           type: "text",
           text: "Hey, what's up?",
         },
-        timestamp: 1649443200,
-        readBy: ["user-1", "user-0"],
+        timestamp: "2023-04-10T21:15:00.000Z",
+        readBy: ["user-1", demoUserId],
+      },
+      {
+        id: "message-123",
+        sender: "user-1",
+        message: {
+          type: "text",
+          text: "Hey, what's up?",
+        },
+        timestamp: "2023-04-11T13:15:00.000Z",
+        readBy: ["user-1", demoUserId],
       },
       {
         id: "message-124",
-        sender: "user-1",
-        senderName: "John Doe",
-        senderProfilePicture: "",
-        messageType: "text",
+        sender: demoUserId,
+        message: {
+          type: "text",
+          text: "Hey, what's up?",
+        },
+        timestamp: "2023-04-11T13:15:30.000Z",
+        readBy: ["user-1", demoUserId],
+      },
+      {
+        id: "message-125",
+        sender: demoUserId,
         message: {
           type: "text",
           text: "Not much, just hanging out",
         },
-        timestamp: 1649443500,
-        readBy: ["user-1", "user-0"],
+        timestamp: "2023-04-11T13:16:30.000Z",
+        readBy: ["user-1", demoUserId],
       },
       {
-        id: "message-125",
+        id: "message-126",
         sender: "user-1",
-        senderName: "John Doe",
-        senderProfilePicture: "",
-        messageType: "text",
         message: {
           type: "text",
           text: "What about you?",
         },
-        timestamp: 1649443800,
+        timestamp: "2023-04-11T13:18:00.000Z",
+        readBy: ["user-1"],
+      },
+      {
+        id: "message-127",
+        sender: "user-1",
+        message: {
+          type: "text",
+          text: "What about you?",
+        },
+        timestamp: "2023-04-11T13:18:00.000Z",
+        readBy: ["user-1"],
+      },
+      {
+        id: "message-128",
+        sender: "user-1",
+        message: {
+          type: "text",
+          text: "What about you?",
+        },
+        timestamp: "2023-04-11T13:19:01.000Z",
+        readBy: ["user-1"],
+      },
+      {
+        id: "message-129",
+        sender: "user-1",
+        message: {
+          type: "text",
+          text: "What about you?",
+        },
+        timestamp: "2023-04-12T03:00:01.000Z",
         readBy: ["user-1"],
       },
     ],
   },
   "room-2": {
-    roomName: "John Smith",
-    users: ["user-0", "user-2"],
+    roomName: userDatas["user-2"].name,
+    users: [demoUserId, "user-2"],
     messages: [
       {
         id: "message-200",
         sender: "user-2",
-        senderName: "John Doe",
-        senderProfilePicture: "",
-        messageType: "text",
         message: {
           type: "text",
           text: "Hey, what's up?",
         },
-        timestamp: 1649404800,
+        timestamp: "2023-04-10T13:16:10.000Z",
+        readBy: ["user-2"],
+      },
+      {
+        id: "message-201",
+        sender: "user-2",
+        message: {
+          type: "image",
+          filePath: "https://avatars.githubusercontent.com/u/22580992?v=4",
+        },
+        timestamp: "2023-04-10T13:16:30.000Z",
         readBy: ["user-2"],
       },
     ],
   },
 };
 
-type ChatRoom = {
+export type ChatRoom = {
   id: string;
   lastMessage: string;
   users: {
@@ -132,8 +177,8 @@ type ChatRoom = {
     name: string;
     profilePicture: string;
   }[];
-  lastMessageTimestamp: number;
-  unreadMessages?: number;
+  lastMessageTimestamp: string;
+  unreadMessages: number;
 };
 
 /**
@@ -141,7 +186,9 @@ type ChatRoom = {
  *
  * @param userId 사용자 ID
  */
-const getChatRoomList = (userId: string) => {
+export const getChatRoomList = async (userId: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 400));
+
   const chatRoomList: ChatRoom[] = [];
 
   Object.entries(chatRoomsDatas).forEach(([roomId, roomData]) => {
@@ -153,7 +200,7 @@ const getChatRoomList = (userId: string) => {
       ).length;
 
       const lastMessageText =
-        lastMessage.messageType === "text"
+        lastMessage.message.type === "text"
           ? lastMessage.message.text
           : "사진을 보냈습니다."; // 파일 전송시 (이미지만 허용합니다.)
 
@@ -168,7 +215,7 @@ const getChatRoomList = (userId: string) => {
             profilePicture: userDatas[id].profilePicture,
           })),
         lastMessageTimestamp: lastMessage.timestamp,
-        unreadMessages: unreadMessages > 0 ? unreadMessages : undefined,
+        unreadMessages: unreadMessages > 0 ? unreadMessages : 0,
       });
     }
   });
@@ -176,13 +223,20 @@ const getChatRoomList = (userId: string) => {
   return chatRoomList;
 };
 
+export type ChatRoomInfo = {
+  roomName: string;
+  users: {
+    id: string;
+    name: string;
+    profilePicture: string;
+  }[];
+};
+
 /**
- * Mockup : 채팅방 정보를 가져옵니다.
- *
  * @param roomId 채팅방 ID
  */
-const getChatRoomInfo = async (roomId: string) => {
-  await new Promise((resolve) => setTimeout(resolve, 200)); // 200ms 지연
+export const getChatRoomInfo = async (roomId: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 400));
 
   const chatRoom = chatRoomsDatas[roomId];
 
@@ -193,39 +247,26 @@ const getChatRoomInfo = async (roomId: string) => {
       name: userDatas[id].name,
       profilePicture: userDatas[id].profilePicture,
     })),
-  };
+  } as ChatRoomInfo;
 };
 
 /**
- * Mockup: 채팅방의 메시지 목록을 가져옵니다.
- *
  * @param roomId 채팅방 ID
  */
-const getChatRoomMessages = async (roomId: string) => {
+export const getChatRoomMessages = async (roomId: string) => {
   await new Promise((resolve) => setTimeout(resolve, 200)); // 200ms 지연
 
   const chatRoom = chatRoomsDatas[roomId];
 
-  return chatRoom.messages.map((message) => ({
-    id: message.id,
-    sender: message.sender,
-    senderName: message.senderName,
-    senderProfilePicture: message.senderProfilePicture,
-    messageType: message.messageType,
-    message: message.message,
-    timestamp: message.timestamp,
-    readBy: message.readBy,
-  }));
+  return chatRoom.messages;
 };
 
 /**
- * Mockup: 채팅방에 메시지를 보냅니다.
- *
  * @param roomId 채팅방 ID
  * @param sender 메시지를 보낸 사용자 ID
  * @param text 메시지 내용
  */
-const sendTextMessage = async (
+export const sendTextMessage = async (
   roomId: string,
   sender: string,
   text: string,
@@ -237,32 +278,28 @@ const sendTextMessage = async (
   const message: ChatMessage = {
     id: `message-${timestamp}`,
     sender,
-    senderName: userDatas[sender].name,
-    senderProfilePicture: userDatas[sender].profilePicture,
-    messageType: "text",
     message: {
       type: "text",
       text,
     },
-    timestamp: timestamp,
+    timestamp: getTimestamp(timestamp),
     readBy: [sender],
   };
 
   chatRoomsDatas[roomId].messages.push(message);
+
+  return message;
 };
 
 /**
- *
  * @param roomId 채팅방 ID
  * @param sender 메시지를 보낸 사용자 ID
  * @param filePath 파일
- * @param fileType 파일 타입
  */
-const sendImageMessage = async (
+export const sendImageMessage = async (
   roomId: string,
   sender: string,
   file: File,
-  fileType: string,
 ) => {
   await new Promise((resolve) => setTimeout(resolve, 1000)); // 1000ms 지연
 
@@ -272,17 +309,45 @@ const sendImageMessage = async (
   const message: ChatMessage = {
     id: `message-${timestamp}`,
     sender,
-    senderName: userDatas[sender].name,
-    senderProfilePicture: userDatas[sender].profilePicture,
-    messageType: "image",
     message: {
       type: "image",
       filePath: filePath,
-      fileType: fileType,
     },
-    timestamp: timestamp,
+    timestamp: getTimestamp(timestamp),
     readBy: [sender],
   };
 
   chatRoomsDatas[roomId].messages.push(message);
+
+  return message;
+};
+
+/**
+ * @param roomId 채팅방 ID
+ * @param userId 사용자 ID
+ * @param messageId 메시지 ID
+ */
+export const readMessage = async (
+  roomId: string,
+  userId: string,
+  messageId: string,
+) => {
+  await new Promise((resolve) => setTimeout(resolve, 50)); // 50ms 지연
+  const room = chatRoomsDatas[roomId];
+
+  const messageIndex = room.messages.findIndex(
+    (message) => message.id === messageId,
+  );
+
+  if (messageIndex === -1) {
+    return false;
+  }
+
+  for (let i = messageIndex; i < room.messages.length; i++) {
+    if (!room.messages[i].readBy.includes(userId)) {
+      room.messages[i].readBy.push(userId);
+    }
+  }
+
+  return true;
 };

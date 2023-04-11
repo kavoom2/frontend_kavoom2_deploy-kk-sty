@@ -53,7 +53,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
       </div>
 
       <div className={headlineClassNames}>
-        <Text tagAs="h1" className={styles["headline-text"]}>
+        <Text tagAs="h1" className={styles["headline-text"]} maxLines={1}>
           {headline}
         </Text>
       </div>
