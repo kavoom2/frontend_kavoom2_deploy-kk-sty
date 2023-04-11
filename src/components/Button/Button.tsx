@@ -1,11 +1,14 @@
 import classNames from "classnames";
 import styles from "./Button.module.scss";
 
+type ButtonVariant = "solid" | "ghost";
+
 type ButtonSize = "small" | "medium";
 
 export interface ButtonProps {
+  variant?: ButtonVariant;
   size?: ButtonSize;
-  label: string;
+  label?: string;
   ariaLabel?: string;
   iconAfter?: React.ReactNode;
   iconBefore?: React.ReactNode;
@@ -16,6 +19,7 @@ export interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({
+  variant = "solid",
   size = "medium",
   label,
   ariaLabel,
@@ -39,6 +43,7 @@ const Button: React.FC<ButtonProps> = ({
   const mainClassNames = classNames(
     {
       [styles.main]: true,
+      [styles[variant]]: variant,
       [styles[size]]: size,
       [styles.loading]: loading,
     },

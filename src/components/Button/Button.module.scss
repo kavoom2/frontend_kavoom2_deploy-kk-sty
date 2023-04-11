@@ -1,9 +1,16 @@
 @use "~@/styles/_variables" as variables;
 @use "~@/styles/_common" as common;
 
+// TODO: 버튼 스타일에 대한 상세 구현이 필요합니다.
+// - 시간 관계상 기능 구현에 먼저 집중합니다.
+
 // 버튼 요소의 스타일을 정의합니다.
 .main {
-  //...
+  --common-button-bg-color: #{variables.$token-color-purple};
+  --common-button-focus-outline: 0 0 0 2px #{variables.$token-color-black};
+  --common-button-text-color: #{variables.$token-color-white};
+
+  @include common.button-base;
 }
 
 .content {
@@ -18,15 +25,26 @@
   }
 }
 
+// 버튼의 Variant 외형을 결정합니다.
+.solid {
+}
+
+.ghost {
+}
+
 // 버튼의 크기를 정의합니다.
 .small {
   min-width: 24px;
   height: 24px;
+
+  border-radius: 12px;
 }
 
 .medium {
   min-width: 50px;
   height: 50px;
+
+  border-radius: 25px;
 }
 
 // 버튼의 상태를 정의합니다.
