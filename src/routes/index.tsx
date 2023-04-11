@@ -1,4 +1,3 @@
-import MainContainer from "@/layouts/MainContainer/MainContainer";
 import {
   Navigate,
   Route,
@@ -11,7 +10,7 @@ import { Component as UserChatRoom } from "@/pages/UserChatRoom";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<MainContainer />}>
+    <Route path="/">
       <Route index element={<Navigate to="/list" />} />
       <Route
         path="list"

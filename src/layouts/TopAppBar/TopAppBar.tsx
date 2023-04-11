@@ -1,23 +1,66 @@
+import Text from "@/components/Text";
+import useMeasure from "@/hooks/useMeasure";
+import classNames from "classnames";
 import styles from "./TopAppBar.module.scss";
 
-type TopAppBarProps = {
+export interface TopAppBarProps {
   leadingNavItems?: React.ReactNode;
   trailingNavItems?: React.ReactNode;
   headline?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+type TopAppBarStyle = React.CSSProperties & {
+  "--aside-max-width"?: string;
 };
 
 const TopAppBar: React.FC<TopAppBarProps> = ({
   leadingNavItems,
   trailingNavItems,
   headline,
+  className,
+  style,
 }) => {
+  const [leadingMenuRef, { width: leadingMenuWidth }] = useMeasure();
+  const [trailingMenuRef, { width: trailingMenuWidth }] = useMeasure();
+
+  const maxWidthExist = Math.max(leadingMenuWidth, trailingMenuWidth) > 0;
+
+  const mainStyle: TopAppBarStyle = {
+    ...style,
+    "--aside-max-width": maxWidthExist
+      ? `${Math.max(leadingMenuWidth, trailingMenuWidth)}px`
+      : undefined,
+  };
+
+  const mainClassNames = classNames(
+    {
+      [styles.main]: true,
+    },
+    className,
+  );
+
+  const headlineClassNames = classNames({
+    [styles.headline]: true,
+    [styles["headline-with-side-menus"]]: maxWidthExist,
+  });
+
   return (
-    <nav className={styles.main}>
-      <div className={styles["leading-menu-items"]}>{leadingNavItems}</div>
+    <nav style={mainStyle} className={mainClassNames}>
+      <div ref={leadingMenuRef} className={styles["leading-menu-items"]}>
+        {leadingNavItems}
+      </div>
 
-      <div className={styles["headline"]}>{headline}</div>
+      <div className={headlineClassNames}>
+        <Text tagAs="h1" className={styles["headline-text"]}>
+          {headline}
+        </Text>
+      </div>
 
-      <div className={styles["trailing-menu-items"]}>{trailingNavItems}</div>
+      <div ref={trailingMenuRef} className={styles["trailing-menu-items"]}>
+        {trailingNavItems}
+      </div>
     </nav>
   );
 };

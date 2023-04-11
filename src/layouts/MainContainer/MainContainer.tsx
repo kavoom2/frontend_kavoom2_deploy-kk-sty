@@ -1,11 +1,11 @@
-import { Outlet } from "react-router-dom";
+import styles from "./MainContainer.module.scss";
 
-const MainContainer = () => {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+export interface MainContainerProps {
+  children: React.ReactNode;
+}
+
+const MainContainer: React.FC<MainContainerProps> = ({ children }) => {
+  return <main className={styles.main}>{children}</main>;
 };
 
 export default MainContainer;
