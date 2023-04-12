@@ -1,0 +1,101 @@
+@use "~@/styles/_variables" as variables;
+@use "~@/styles/_common" as common;
+
+.main {
+  width: 100%;
+  height: 74px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  padding: 0px calc(4 * #{variables.$token-spacing-xxs});
+}
+
+.profile-avatar {
+  flex: 0 0 auto;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+.room-info {
+  flex: 1 1 auto;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 18px 0px;
+  margin: 0px 0px 0px 15px;
+
+  .roomname {
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: -0.2px;
+    color: #{variables.$token-color-charcoal-grey};
+  }
+
+  .last-message {
+    font-size: 0.813rem;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.1px;
+    color: #{variables.$token-color-cool-grey};
+
+    margin: 3px 0px 0px 0px;
+  }
+}
+
+.room-sub-info {
+  flex: 0 0 auto;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  padding: 21px 0px 16px 0px;
+  margin: 0px 0px 0px 13px;
+
+  .time {
+    font-size: 0.813rem;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.1px;
+    color: #{variables.$token-color-cool-grey};
+  }
+
+  .unread-count {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 18px;
+    height: 18px;
+    padding: 4px 6px;
+    border-radius: 10.5px;
+    background-color: #{variables.$token-color-purple};
+
+    font-size: 0.625rem;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.08px;
+    text-align: center;
+    color: #{variables.$token-color-white};
+
+    margin: 6px 0px 0px 0px;
+  }
+}
+
+.main.has-action {
+  cursor: pointer;
+}

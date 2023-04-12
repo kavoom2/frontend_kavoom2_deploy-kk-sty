@@ -17,11 +17,40 @@ const config = {
   },
   webpackFinal: async (config, { configType }) => {
     /**
-     * @see https://lahuman.github.io/storybook_css_module/ Storybook CSS Module + SCSS 설정
+     * Storybook CSS Module + SCSS 설정
+     * @see https://lahuman.github.io/storybook_css_module/
      */
     config = webpackScssWithCSSModules(config);
 
+    /**
+     * Storybook Aliasing 설정
+     */
     config.resolve.alias["@"] = path.resolve(__dirname, "../src/");
+
+    /**
+     * Storybook SVGR 설정
+     * @see https://github.com/storybookjs/storybook/issues/11821
+     */
+    const assetRule = config.module.rules.find(({ test }) => test.test(".svg"));
+    const assetLoader = {
+      loader: assetRule.loader,
+      options: assetRule.options || assetRule.query,
+    };
+    config.module.rules.unshift({
+      test: /\.svg$/,
+      use: ["@svgr/webpack", assetLoader],
+    });
+
+    /**
+     * Framer Motion 관련 이슈 대응
+     */
+    webpackConfig.module.rules.push({
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: "javascript/auto",
+    });
+
+    return webpackConfig;
 
     return config;
   },

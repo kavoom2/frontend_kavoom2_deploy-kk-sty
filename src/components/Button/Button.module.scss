@@ -1,57 +1,111 @@
 @use "~@/styles/_variables" as variables;
 @use "~@/styles/_common" as common;
 
-// TODO: 버튼 스타일에 대한 상세 구현이 필요합니다.
-// - 시간 관계상 기능 구현에 먼저 집중합니다.
-
-// 버튼 요소의 스타일을 정의합니다.
 .main {
-  --common-button-bg-color: #{variables.$token-color-purple};
-  --common-button-focus-outline: 0 0 0 2px #{variables.$token-color-black};
-  --common-button-text-color: #{variables.$token-color-white};
+  outline: none;
+  border: none;
 
-  @include common.button-base;
+  min-width: var(--button-container-size, 50px);
+  height: var(--button-container-size, 50px);
+
+  background-color: var(
+    --button-container-bg-color,
+    #{variables.$token-color-purple}
+  );
+  color: var(--button-label-color, #{variables.$token-color-white});
+
+  border-radius: var(--button-container-border-radius, 25px);
+
+  padding: 0 var(--button-container-padding-x, 0);
+  margin: 0;
 }
 
 .content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+
   & > *:not(:first-child) {
     margin: 0px 0px 0px #{variables.$token-spacing-xxs};
   }
 
   .icon {
+    display: inline-flex;
   }
 
   .label {
+    display: inline-flex;
   }
 }
 
 // 버튼의 Variant 외형을 결정합니다.
-.solid {
+.variant-solid {
+  --button-container-bg-color: #{variables.$token-color-purple};
+  --button-label-color: #{variables.$token-color-white};
+
+  @include common.hover-without-touchdevice {
+    --button-container-bg-color: #{rgba(variables.$token-color-purple, 0.8)};
+  }
+
+  &:active {
+    --button-container-bg-color: #{rgba(variables.$token-color-purple, 0.6)};
+  }
+
+  &:disabled,
+  &.loading {
+    opacity: 0.8;
+    --button-container-bg-color: #{rgba(variables.$token-color-purple, 0.4)};
+  }
 }
 
-.ghost {
+.variant-ghost {
+  --button-container-bg-color: transparent;
+  --button-label-color: #{variables.$token-color-white};
+
+  @include common.hover-without-touchdevice {
+    --button-container-bg-color: #{rgba(
+        variables.$token-color-battleship-grey,
+        0.2
+      )};
+  }
+
+  &:active {
+    --button-container-bg-color: #{rgba(
+        variables.$token-color-battleship-grey,
+        0.6
+      )};
+  }
+
+  &:disabled,
+  &.loading {
+    opacity: 0.8;
+    --button-container-bg-color: transparent;
+  }
 }
 
-// 버튼의 크기를 정의합니다.
-.small {
-  min-width: 24px;
-  height: 24px;
-
-  border-radius: 12px;
+// 버튼의 크기에 따른 스타일를 정의합니다.
+.size-small {
+  --button-container-size: 32px;
+  --button-container-padding-x: 4px;
+  --button-container-border-radius: 4px;
 }
 
-.medium {
-  min-width: 50px;
-  height: 50px;
-
-  border-radius: 25px;
+.size-medium {
+  --button-container-size: 50px;
+  --button-container-padding-x: 6px;
+  --button-container-border-radius: 25px;
 }
 
-// 버튼의 상태를 정의합니다.
+// 버튼의 상태에 따른 스타일 정의합니다.
 .main:disabled {
-  // ...
+  cursor: not-allowed;
 }
 
 .main.loading {
-  // ...
+  cursor: wait;
+}
+
+.main:focus-visible {
+  box-shadow: 0 0 0 2px #{rgba(variables.$token-color-black, 0.8)};
 }

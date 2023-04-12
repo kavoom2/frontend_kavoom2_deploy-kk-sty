@@ -25,6 +25,15 @@
   border-radius: 12px;
 }
 
+.loader {
+  filter: drop-shadow(0 0px 4px rgba(0, 0, 0, 0.25));
+
+  circle {
+    stroke-opacity: 1 !important;
+  }
+}
+
+// 메시지 소유자에 따른 상세 스타일 정의
 .own-message {
   flex-direction: row-reverse;
 
@@ -34,7 +43,8 @@
     box-shadow: 0 2px 4px 0 rgba(91, 56, 177, 0.4);
   }
 
-  .time-label {
+  .time-label,
+  .loader {
     margin: 0px #{variables.$token-spacing-xxs} 0px 0px;
   }
 }
@@ -46,7 +56,16 @@
     box-shadow: 0 2px 4px 0 rgba(variables.$token-color-black, 0.1);
   }
 
-  .time-label {
+  .time-label,
+  .loader {
     margin: 0px 0px 0px #{variables.$token-spacing-xxs};
+  }
+}
+
+// 상태에 따른 스타일 정의
+.loading {
+  .message-box {
+    cursor: wait;
+    opacity: 0.65;
   }
 }

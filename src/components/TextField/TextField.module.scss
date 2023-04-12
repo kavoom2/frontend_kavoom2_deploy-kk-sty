@@ -1,0 +1,58 @@
+@use "~@/styles/_variables" as variables;
+@use "~@/styles/_common" as common;
+
+.main {
+  position: relative;
+
+  display: flex;
+
+  padding: 4px 16px;
+
+  border-radius: 25px;
+  box-shadow: 0 2px 4px 0 #{variables.$token-color-black-10};
+  background-color: #{variables.$token-color-white};
+}
+
+.fixed-width {
+  width: var(--container-width);
+}
+
+.fit-container {
+  width: 100%;
+}
+
+.main > textarea {
+  border: none !important;
+  outline: none !important;
+  background-color: transparent !important;
+
+  margin: 0;
+  padding: 12px 12px 12px 0px;
+
+  width: 100%;
+  height: 50px;
+
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 18px;
+  letter-spacing: -0.12px;
+  color: #{variables.$token-color-black};
+
+  resize: none;
+}
+
+.main > .outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 25px;
+  border: 6px solid #{variables.$token-color-white};
+
+  pointer-events: none;
+}

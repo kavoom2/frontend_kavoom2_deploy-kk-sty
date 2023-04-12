@@ -16,6 +16,7 @@ export interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   className?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -29,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   loading = false,
   className,
+  type = "button",
 }) => {
   const mergedDisabled = disabled || loading;
 
@@ -43,8 +45,8 @@ const Button: React.FC<ButtonProps> = ({
   const mainClassNames = classNames(
     {
       [styles.main]: true,
-      [styles[variant]]: variant,
-      [styles[size]]: size,
+      [styles[`variant-${variant}`]]: variant,
+      [styles[`size-${size}`]]: size,
       [styles.loading]: loading,
     },
     className,
@@ -74,6 +76,9 @@ const Button: React.FC<ButtonProps> = ({
       className={mainClassNames}
       aria-label={ariaLabel}
       aria-busy={loading}
+      disabled={disabled}
+      tabIndex={mergedDisabled ? -1 : 0}
+      type={type}
     >
       {contentNode}
     </button>

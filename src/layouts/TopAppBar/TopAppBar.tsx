@@ -47,7 +47,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
   });
 
   return (
-    <nav style={mainStyle} className={mainClassNames}>
+    <nav id="layout-primary-nav" style={mainStyle} className={mainClassNames}>
       <div ref={leadingMenuRef} className={styles["leading-menu-items"]}>
         {leadingNavItems}
       </div>

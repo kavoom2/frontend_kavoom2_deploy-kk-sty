@@ -1,11 +1,11 @@
 import { getTimestamp } from "@/utils/dateFormatter";
 
-type TextMessage = {
+export type TextMessage = {
   type: "text";
   text: string;
 };
 
-type ImageMessage = {
+export type ImageMessage = {
   type: "image";
   filePath: string;
 };
@@ -271,7 +271,7 @@ export const sendTextMessage = async (
   sender: string,
   text: string,
 ) => {
-  await new Promise((resolve) => setTimeout(resolve, 50)); // 50ms 지연
+  await new Promise((resolve) => setTimeout(resolve, 500)); // 50ms 지연
 
   const timestamp = Date.now();
 
@@ -286,7 +286,10 @@ export const sendTextMessage = async (
     readBy: [sender],
   };
 
-  chatRoomsDatas[roomId].messages.push(message);
+  chatRoomsDatas[roomId] = {
+    ...chatRoomsDatas[roomId],
+    messages: [...chatRoomsDatas[roomId].messages, message],
+  };
 
   return message;
 };
@@ -317,7 +320,10 @@ export const sendImageMessage = async (
     readBy: [sender],
   };
 
-  chatRoomsDatas[roomId].messages.push(message);
+  chatRoomsDatas[roomId] = {
+    ...chatRoomsDatas[roomId],
+    messages: [...chatRoomsDatas[roomId].messages, message],
+  };
 
   return message;
 };
@@ -343,11 +349,21 @@ export const readMessage = async (
     return false;
   }
 
-  for (let i = messageIndex; i < room.messages.length; i++) {
-    if (!room.messages[i].readBy.includes(userId)) {
-      room.messages[i].readBy.push(userId);
+  const nextMessage = room.messages.map((item) => {
+    if (!item.readBy.includes(userId)) {
+      return {
+        ...item,
+        readBy: [...item.readBy, userId],
+      };
     }
-  }
+
+    return item;
+  });
+
+  chatRoomsDatas[roomId] = {
+    ...chatRoomsDatas[roomId],
+    messages: nextMessage,
+  };
 
   return true;
 };

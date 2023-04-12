@@ -1,0 +1,23 @@
+@use "~@/styles/_variables" as variables;
+@use "~@/styles/_common" as common;
+
+.main {
+  flex: 0 0 auto;
+
+  width: 100%;
+  background-color: #{variables.$token-color-white};
+  border-top: 1px solid rgba(230, 230, 235, 1);
+
+  padding: calc(4 * 4px) calc(4 * 4px) calc(4 * 4px) calc(4 * 4px);
+}
+
+.main form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  & > :last-child {
+    margin: 0px 0px 0px 12px;
+  }
+}

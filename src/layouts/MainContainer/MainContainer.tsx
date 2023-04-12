@@ -5,7 +5,11 @@ export interface MainContainerProps {
 }
 
 const MainContainer: React.FC<MainContainerProps> = ({ children }) => {
-  return <main className={styles.main}>{children}</main>;
+  return (
+    <main id="layout-main" className={styles.main}>
+      {children}
+    </main>
+  );
 };
 
 export default MainContainer;

@@ -1,6 +1,14 @@
+import { ReactComponent as MenusIcon } from "@/assets/icons/icon-small-menus.svg";
+import { ReactComponent as UserProfileIcon } from "@/assets/icons/icon-small-user-profile.svg";
 import Avatar from "@/components/Avatar";
+import Button from "@/components/Button";
+import PageLoader from "@/components/PageLoader/PageLoader";
 import TimeLabel from "@/components/TimeLabel";
-import useGetChatList from "@/features/userChat/hooks/useGetChatRoomList";
+import {
+  ChatListLayout,
+  ChatRoomListItem,
+  useGetChatRoomList,
+} from "@/features/userChat";
 import MainContainer from "@/layouts/MainContainer/MainContainer";
 import TopAppBar from "@/layouts/TopAppBar/TopAppBar";
 import { demoUserId } from "@/mockers/chatMock";
@@ -11,14 +19,43 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
+const demoVariants = {
+  initial: { x: 100, opacity: 0 },
+  enter: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+  exit: {
+    x: -100,
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut",
+    },
+  },
+};
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <TopAppBar
         headline="채팅"
-        leadingNavItems={<>LEFT</>}
-        trailingNavItems={<>RIGHT</>}
+        leadingNavItems={
+          <Button iconBefore={<MenusIcon />} variant="ghost" size="small" />
+        }
+        trailingNavItems={
+          <Button
+            iconBefore={<UserProfileIcon />}
+            variant="ghost"
+            size="small"
+          />
+        }
       />
+
       <MainContainer>{children}</MainContainer>
     </>
   );
@@ -26,7 +63,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
 export const Component = () => {
   const currentUser = demoUserId;
-  const getChatListQuery = useGetChatList(currentUser);
+  const getChatListQuery = useGetChatRoomList(currentUser);
+
+  const navigate = useNavigate();
+
+  if (getChatListQuery.isLoading || getChatListQuery.isError) {
+    return <PageLoader />;
+  }
 
   const chatRoomItemNodes =
     (getChatListQuery.data &&
@@ -34,15 +77,19 @@ export const Component = () => {
         const { name: roomName, profilePicture: roomAvatarPicture } =
           room.users.filter((user) => user.id !== currentUser)[0];
 
+        const goChatRoom = () => {
+          navigate(`/room/${room.id}`);
+        };
+
         return (
           <li key={room.id}>
-            <DemoChatItem
-              roomId={room.id}
+            <ChatRoomListItem
               roomName={roomName}
-              roomAvatarPicture={roomAvatarPicture}
+              roomImageSrc={roomAvatarPicture}
               lastMessage={room.lastMessage}
               lastMessageTimestamp={room.lastMessageTimestamp}
               unreadMessages={room.unreadMessages}
+              onClick={goChatRoom}
             />
           </li>
         );
@@ -51,7 +98,9 @@ export const Component = () => {
 
   return (
     <Layout>
-      <ol>{chatRoomItemNodes}</ol>
+      <ChatListLayout>
+        <ol>{chatRoomItemNodes}</ol>
+      </ChatListLayout>
     </Layout>
   );
 };

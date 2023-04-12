@@ -23,7 +23,14 @@ function useGetChatRoomList(userId: string) {
           const aTime = new Date(a.lastMessageTimestamp);
           const bTime = new Date(b.lastMessageTimestamp);
 
-          return bTime.getTime() - aTime.getTime() > 0 ? 1 : -1;
+          const aTimeMs = aTime.getTime();
+          const bTimeMs = bTime.getTime();
+
+          if (aTimeMs === bTimeMs) {
+            return b.unreadMessages > a.unreadMessages ? 1 : -1;
+          }
+
+          return bTimeMs > aTimeMs ? 1 : -1;
         });
 
         return chatListSortedByTime;

@@ -2,10 +2,12 @@ import { sendTextMessage } from "@/mockers/chatMock";
 
 export const sendChatTextMessageQuery = {
   queryKey: () => {
-    return "sendChatTextMessage";
+    return ["sendChatTextMessage"];
   },
-  queryFn: (roomId: string, sender: string, message: string) => {
-    return sendTextMessage(roomId, sender, message);
+  queryFn: (roomId: string, sender: string) => {
+    return async function (variables: { text: string; callId: string }) {
+      return await sendTextMessage(roomId, sender, variables.text);
+    };
   },
 };
 
