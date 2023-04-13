@@ -44,13 +44,11 @@ const config = {
     /**
      * Framer Motion 관련 이슈 대응
      */
-    webpackConfig.module.rules.push({
+    config.module.rules.push({
       test: /\.mjs$/,
       include: /node_modules/,
       type: "javascript/auto",
     });
-
-    return webpackConfig;
 
     return config;
   },
