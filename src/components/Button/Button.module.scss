@@ -20,6 +20,10 @@
   margin: 0;
 }
 
+.fit-container {
+  width: 100%;
+}
+
 .content {
   display: flex;
   align-items: center;
@@ -98,6 +102,10 @@
 }
 
 // 버튼의 상태에 따른 스타일 정의합니다.
+.main {
+  cursor: pointer;
+}
+
 .main:disabled {
   cursor: not-allowed;
 }

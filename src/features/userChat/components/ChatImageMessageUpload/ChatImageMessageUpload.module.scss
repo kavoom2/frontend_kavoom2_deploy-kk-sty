@@ -1,0 +1,9 @@
+@use "~@/styles/_variables" as variables;
+@use "~@/styles/_common" as common;
+
+.main {
+  padding: 0;
+  margin: 0;
+
+  display: inline-flex;
+}

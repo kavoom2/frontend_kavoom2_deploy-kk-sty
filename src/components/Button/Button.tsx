@@ -15,6 +15,7 @@ export interface ButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   loading?: boolean;
+  shouldFitContainer?: boolean;
   className?: string;
   type?: "button" | "submit" | "reset";
 }
@@ -29,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   disabled = false,
   loading = false,
+  shouldFitContainer = false,
   className,
   type = "button",
 }) => {
@@ -48,6 +50,7 @@ const Button: React.FC<ButtonProps> = ({
       [styles[`variant-${variant}`]]: variant,
       [styles[`size-${size}`]]: size,
       [styles.loading]: loading,
+      [styles["fit-container"]]: shouldFitContainer,
     },
     className,
   );

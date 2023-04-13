@@ -29,7 +29,7 @@ const useDidUpdate = (
        */
       isMountedRef.current = false;
     };
-  });
+  }, []);
 };
 
 export default useDidUpdate;

@@ -1,33 +1,40 @@
 import getChatRoomListQuery from "@/features/userChat/queries/getChatRoomList";
 import getChatRoomMessagesQuery from "@/features/userChat/queries/getChatRoomMessages";
-import sendChatTextMessageQuery from "@/features/userChat/queries/sendChatTextMessage";
+import sendChatImageMessageQuery from "@/features/userChat/queries/sendChatImageMessage";
 import useClientsideChatStore from "@/features/userChat/stores/useClientsideChatStore";
 import { ChatMessage } from "@/mockers/chatMock";
+import { getImageOriginalSize } from "@/utils/browserDOM";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { getOptimisticChatMessages } from "./_utils/chatUtils";
 
-function useSendChatTextMessage(roomId: string, sender: string) {
-  const addPendingTextMessage = useClientsideChatStore(
-    (state) => state.addPendingTextMessage,
+function useSendChatImageMessage(roomId: string, sender: string) {
+  const addPendingImageMessage = useClientsideChatStore(
+    (state) => state.addPendingImageMessage,
   );
-  const removePendingTextMessage = useClientsideChatStore(
-    (state) => state.removePendingTextMessage,
+
+  const removePendingImageMessage = useClientsideChatStore(
+    (state) => state.removePendingImageMessage,
   );
 
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    sendChatTextMessageQuery.queryKey(),
-    sendChatTextMessageQuery.queryFn(roomId, sender),
+    sendChatImageMessageQuery.queryKey(),
+    sendChatImageMessageQuery.queryFn(roomId, sender),
     {
-      onMutate: (variables) => {
+      onMutate: async (variables) => {
         queryClient.cancelQueries(getChatRoomMessagesQuery.queryKey(roomId));
 
-        addPendingTextMessage(roomId, {
-          type: "text",
-          text: variables.text,
+        const filePath = URL.createObjectURL(variables.file);
+        const { width, height } = await getImageOriginalSize(filePath);
+
+        addPendingImageMessage(roomId, {
+          type: "image",
           callId: variables.callId,
+          filePath,
+          width,
+          height,
         });
       },
       onSuccess: (data) => {
@@ -52,26 +59,26 @@ function useSendChatTextMessage(roomId: string, sender: string) {
         });
       },
       onSettled: (_data, _error, variables) => {
-        removePendingTextMessage(roomId, variables.callId);
+        removePendingImageMessage(roomId, variables.callId);
       },
     },
   );
 
-  const sendTextMessage = useCallback(
-    (text: string) => {
-      if (!text) {
+  const sendImageMessage = useCallback(
+    (file: File) => {
+      if (!file) {
         return;
       }
 
-      const callId = "MESSAGE_TEXT_CALL_ID_" + Date.now().toString();
+      const callId = "MESSAGE_IMAGE_CALL_ID_" + Date.now().toString();
 
-      return mutation.mutateAsync({ text, callId });
+      return mutation.mutateAsync({ file, callId });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [mutation.mutateAsync],
   );
 
-  return [sendTextMessage, mutation] as const;
+  return [sendImageMessage, mutation] as const;
 }
 
-export default useSendChatTextMessage;
+export default useSendChatImageMessage;

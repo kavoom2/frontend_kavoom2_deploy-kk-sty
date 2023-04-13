@@ -15,6 +15,7 @@ export interface ClientsideChatStore {
    */
   roomMap: {
     [roomId: string]: {
+      lastRequestMessageId: string | null;
       messages: (PendingTextMessage | PendingImageMessage)[];
     };
   };
@@ -38,9 +39,14 @@ export interface ClientsideChatStore {
   ) => void;
 
   /**
-   * 서버로부터 특정 ID의 메시지를 받으면 해당 메시지를 로컬 데이터에서 제거합니다.
+   * 서버로부터 특정 ID의 메시지를 받으면 해당 메시지를 로컬 데이터에서 제거합니다. (텍스트 메시지 전송 시)
    */
-  removePendingMessage: (roomId: string, callId: string) => void;
+  removePendingTextMessage: (roomId: string, callId: string) => void;
+
+  /**
+   * 서버로부터 특정 ID의 메시지를 받으면 해당 메시지를 로컬 데이터에서 제거합니다. (이미지 메시지 전송 시)
+   */
+  removePendingImageMessage: (roomId: string, callId: string) => void;
 
   /**
    * 클라이언트에서 해당 채팅방의 로컬 데이터를 제거합니다.
@@ -63,6 +69,7 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
         const roomMap = {
           ...state.roomMap,
           [roomId]: {
+            lastRequestMessageId: null,
             messages: [],
           },
         };
@@ -76,6 +83,8 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
         const roomMap = {
           ...state.roomMap,
           [roomId]: {
+            ...state.roomMap[roomId],
+            lastRequestMessageId: message.callId,
             messages: [...state.roomMap[roomId].messages, message],
           },
         };
@@ -89,6 +98,8 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
         const roomMap = {
           ...state.roomMap,
           [roomId]: {
+            ...state.roomMap[roomId],
+            lastRequestMessageId: message.callId,
             messages: [...state.roomMap[roomId].messages, message],
           },
         };
@@ -97,14 +108,46 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
       });
     },
 
-    removePendingMessage: (roomId: string, callId: string) => {
+    removePendingTextMessage: (roomId: string, callId: string) => {
       set((state) => {
         const roomMap = {
           ...state.roomMap,
           [roomId]: {
-            messages: state.roomMap[roomId].messages.filter(
-              (message) => message.callId !== callId,
-            ),
+            ...state.roomMap[roomId],
+            messages: state.roomMap[roomId].messages.filter((message) => {
+              if (message.type !== "text") {
+                return true;
+              }
+
+              return message.callId !== callId;
+            }),
+          },
+        };
+
+        return { roomMap };
+      });
+    },
+
+    removePendingImageMessage: (roomId: string, callId: string) => {
+      set((state) => {
+        const roomMap = {
+          ...state.roomMap,
+          [roomId]: {
+            ...state.roomMap[roomId],
+            messages: state.roomMap[roomId].messages.filter((message) => {
+              if (message.type !== "image") {
+                return true;
+              }
+
+              const isTargetMessage = message.callId === callId;
+
+              if (isTargetMessage) {
+                // clean up: 이미지 메시지를 보낸 후, 해당 이미지를 메모리에서 제거합니다.
+                URL.revokeObjectURL(message.filePath);
+              }
+
+              return !isTargetMessage;
+            }),
           },
         };
 

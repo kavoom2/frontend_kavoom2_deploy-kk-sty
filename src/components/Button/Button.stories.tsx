@@ -19,7 +19,11 @@ export const Default = () => {
   const labelProp = "Button";
   const labelValue = text("Label", labelProp);
 
-  return <Button label={labelValue} />;
+  return (
+    <div>
+      <Button label={labelValue} />
+    </div>
+  );
 };
 
 export const Variants = () => {
@@ -39,8 +43,15 @@ export const Variants = () => {
 export const Sizes = () => {
   return (
     <>
-      <Button label="Small" size="small" />
-      <Button label="Medium" size="medium" />
+      <div>
+        <Button label="Small" size="small" />
+        <Button label="Medium" size="medium" />
+      </div>
+
+      <div>
+        <Button label="Small" size="small" shouldFitContainer />
+        <Button label="Medium" size="medium" shouldFitContainer />
+      </div>
     </>
   );
 };

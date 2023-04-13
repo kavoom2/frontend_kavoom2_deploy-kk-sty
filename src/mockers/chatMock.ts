@@ -1,3 +1,4 @@
+import { getImageOriginalSize } from "@/utils/browserDOM";
 import { getTimestamp } from "@/utils/dateFormatter";
 
 export type TextMessage = {
@@ -8,6 +9,8 @@ export type TextMessage = {
 export type ImageMessage = {
   type: "image";
   filePath: string;
+  width: number;
+  height: number;
 };
 
 export type ChatMessage =
@@ -161,6 +164,8 @@ const chatRoomsDatas: Record<string, ChatRoomData> = {
         message: {
           type: "image",
           filePath: "https://avatars.githubusercontent.com/u/22580992?v=4",
+          width: 460,
+          height: 460,
         },
         timestamp: "2023-04-10T13:16:30.000Z",
         readBy: ["user-2"],
@@ -274,7 +279,6 @@ export const sendTextMessage = async (
   await new Promise((resolve) => setTimeout(resolve, 500)); // 50ms 지연
 
   const timestamp = Date.now();
-
   const message: ChatMessage = {
     id: `message-${timestamp}`,
     sender,
@@ -304,10 +308,11 @@ export const sendImageMessage = async (
   sender: string,
   file: File,
 ) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000)); // 1000ms 지연
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // 1000ms 지연
 
   const timestamp = Date.now();
   const filePath = URL.createObjectURL(file); // 목업 데이터이므로 ObjectURL을 사용합니다.
+  const { width, height } = await getImageOriginalSize(filePath);
 
   const message: ChatMessage = {
     id: `message-${timestamp}`,
@@ -315,6 +320,8 @@ export const sendImageMessage = async (
     message: {
       type: "image",
       filePath: filePath,
+      width,
+      height,
     },
     timestamp: getTimestamp(timestamp),
     readBy: [sender],

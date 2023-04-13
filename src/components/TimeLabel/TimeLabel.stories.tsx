@@ -17,7 +17,11 @@ export const Default = () => {
   const dateProp = new Date();
   const dateValue = date("Date", dateProp);
 
-  return <TimeLabel date={dateValue} formatter={getHourAndMinutesLabel} />;
+  return (
+    <div>
+      <TimeLabel date={dateValue} formatter={getHourAndMinutesLabel} />
+    </div>
+  );
 };
 
 export const Examples = (args: any) => {

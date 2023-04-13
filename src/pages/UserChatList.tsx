@@ -1,9 +1,7 @@
 import { ReactComponent as MenusIcon } from "@/assets/icons/icon-small-menus.svg";
 import { ReactComponent as UserProfileIcon } from "@/assets/icons/icon-small-user-profile.svg";
-import Avatar from "@/components/Avatar";
 import Button from "@/components/Button";
 import PageLoader from "@/components/PageLoader/PageLoader";
-import TimeLabel from "@/components/TimeLabel";
 import {
   ChatListLayout,
   ChatRoomListItem,
@@ -12,64 +10,32 @@ import {
 import MainContainer from "@/layouts/MainContainer/MainContainer";
 import TopAppBar from "@/layouts/TopAppBar/TopAppBar";
 import { demoUserId } from "@/mockers/chatMock";
-import { getRelativeDateLabel } from "@/utils/dateFormatter";
 import { useNavigate } from "react-router-dom";
 
-type LayoutProps = {
-  children: React.ReactNode;
-};
+type PageHeaderProps = {};
 
-const demoVariants = {
-  initial: { x: 100, opacity: 0 },
-  enter: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.3,
-      ease: "easeInOut",
-    },
-  },
-  exit: {
-    x: -100,
-    opacity: 0,
-    transition: {
-      duration: 0.2,
-      ease: "easeInOut",
-    },
-  },
-};
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const PageHeader: React.FC<PageHeaderProps> = () => {
   return (
-    <>
-      <TopAppBar
-        headline="채팅"
-        leadingNavItems={
-          <Button iconBefore={<MenusIcon />} variant="ghost" size="small" />
-        }
-        trailingNavItems={
-          <Button
-            iconBefore={<UserProfileIcon />}
-            variant="ghost"
-            size="small"
-          />
-        }
-      />
-
-      <MainContainer>{children}</MainContainer>
-    </>
+    <TopAppBar
+      headline="채팅"
+      leadingNavItems={
+        <Button iconBefore={<MenusIcon />} variant="ghost" size="small" />
+      }
+      trailingNavItems={
+        <Button iconBefore={<UserProfileIcon />} variant="ghost" size="small" />
+      }
+    />
   );
 };
 
-export const Component = () => {
-  const currentUser = demoUserId;
+type PageMainProps = {
+  currentUser: string;
+};
+
+const PageMain: React.FC<PageMainProps> = ({ currentUser }) => {
   const getChatListQuery = useGetChatRoomList(currentUser);
 
   const navigate = useNavigate();
-
-  if (getChatListQuery.isLoading || getChatListQuery.isError) {
-    return <PageLoader />;
-  }
 
   const chatRoomItemNodes =
     (getChatListQuery.data &&
@@ -97,55 +63,27 @@ export const Component = () => {
     null;
 
   return (
-    <Layout>
+    <MainContainer>
       <ChatListLayout>
         <ol>{chatRoomItemNodes}</ol>
       </ChatListLayout>
-    </Layout>
+    </MainContainer>
   );
 };
 
-/**
- * 다음은 Chat Item에 대한 데모 컴포넌트입니다.
- */
-type DemoChatItemProps = {
-  roomId: string;
-  roomName: string;
-  roomAvatarPicture: string;
-  lastMessage?: string;
-  lastMessageTimestamp?: string;
-  unreadMessages: number;
-};
+export const Component = () => {
+  const currentUser = demoUserId;
+  const getChatListQuery = useGetChatRoomList(currentUser);
 
-const DemoChatItem: React.FC<DemoChatItemProps> = ({
-  roomId,
-  roomName,
-  roomAvatarPicture,
-  lastMessage,
-  lastMessageTimestamp,
-  unreadMessages,
-}) => {
-  const naviagte = useNavigate();
-
-  const goChatRoom = () => {
-    naviagte(`/room/${roomId}`);
-  };
+  if (getChatListQuery.isLoading || getChatListQuery.isError) {
+    return <PageLoader />;
+  }
 
   return (
-    <div onClick={goChatRoom}>
-      <h3>{roomName}</h3>
-      <p>{lastMessage}</p>
+    <>
+      <PageHeader />
 
-      <Avatar name={roomName} src={roomAvatarPicture} />
-
-      {lastMessageTimestamp && (
-        <TimeLabel
-          date={lastMessageTimestamp}
-          formatter={getRelativeDateLabel}
-        />
-      )}
-
-      {unreadMessages > 0 && <span>{unreadMessages}</span>}
-    </div>
+      <PageMain currentUser={currentUser} />
+    </>
   );
 };

@@ -1,6 +1,8 @@
 import Button from "@/components/Button";
 import PageLoader from "@/components/PageLoader";
 import {
+  ChatImageMessageBox,
+  ChatImageMessageUpload,
   ChatRoomAligner,
   ChatRoomBottomBar,
   ChatRoomDateDivider,
@@ -10,6 +12,7 @@ import {
   useClientSideChat,
   useGetChatRoomInfo,
   useGetChatRoomMessages,
+  useSendChatImageMessage,
   useSendChatTextMessage,
 } from "@/features/userChat";
 import MainContainer from "@/layouts/MainContainer/MainContainer";
@@ -18,39 +21,23 @@ import TopAppBar from "@/layouts/TopAppBar/TopAppBar";
 import { ReactComponent as BackIcon } from "@/assets/icons/icon-small-back.svg";
 import { ReactComponent as PicturesIcon } from "@/assets/icons/icon-small-pictures.svg";
 import { ReactComponent as SearchIcon } from "@/assets/icons/icon-small-search.svg";
+import useDidUpdate from "@/hooks/useDidUpdate";
 import { demoUserId } from "@/mockers/chatMock";
 import { mainElementScrollToBottom } from "@/utils/layoutDOM";
 import { Fragment, useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-const demoVariants = {
-  initial: { x: 100, opacity: 0 },
-  enter: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.3,
-      ease: "easeInOut",
-    },
-  },
-  exit: {
-    x: -100,
-    opacity: 0,
-    transition: {
-      duration: 0.2,
-      ease: "easeInOut",
-    },
-  },
-};
-
 type PageHeaderProps = {
   roomId: string;
+  currentUser: string;
 };
 
-const PageHeader: React.FC<PageHeaderProps> = ({ roomId }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ roomId, currentUser }) => {
   const naviagte = useNavigate();
 
   const getChatRoomInfoQuery = useGetChatRoomInfo(roomId);
+  const [sendImageMessage] = useSendChatImageMessage(roomId, currentUser);
+
   const headline = getChatRoomInfoQuery.data?.roomName;
 
   const goToChatRoomListPage = () => {
@@ -71,6 +58,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ roomId }) => {
       trailingNavItems={
         <>
           <Button iconBefore={<PicturesIcon />} variant="ghost" size="small" />
+          <ChatImageMessageUpload onFileAccepted={sendImageMessage} />
           <Button iconBefore={<SearchIcon />} variant="ghost" size="small" />
         </>
       }
@@ -85,7 +73,8 @@ type PageMainProps = {
 
 const PageMain: React.FC<PageMainProps> = ({ roomId, currentUser }) => {
   const getChatRoomMessagesQuery = useGetChatRoomMessages(roomId);
-  const { messages: clientSideMessages } = useClientSideChat(roomId);
+  const { messages: clientSideMessages, lastRequestMessageId } =
+    useClientSideChat(roomId);
 
   const chatMessageNodes = getChatRoomMessagesQuery.data?.map((item, idx) => {
     const ownMessage = item.sender === currentUser;
@@ -132,7 +121,13 @@ const PageMain: React.FC<PageMainProps> = ({ roomId, currentUser }) => {
           )}
 
           {item.message.type === "image" && (
-            <img src={item.message.filePath} alt="" />
+            <ChatImageMessageBox
+              ownMessage={ownMessage}
+              src={item.message.filePath}
+              ratio={item.message.width / item.message.height}
+              shouldSkipTimeLabel={shouldSkipTimeLabel}
+              timestamp={item.timestamp}
+            />
           )}
         </ChatRoomAligner>
       </Fragment>
@@ -168,12 +163,21 @@ const PageMain: React.FC<PageMainProps> = ({ roomId, currentUser }) => {
             />
           )}
 
-          {item.type === "image" && <img src={item.filePath} alt="" />}
+          {item.type === "image" && (
+            <ChatImageMessageBox
+              ownMessage
+              src={item.filePath}
+              ratio={item.width / item.height}
+              shouldSkipTimeLabel
+              loading
+            />
+          )}
         </ChatRoomAligner>
       </Fragment>
     );
   });
 
+  // Side Effect: 특정 사용자가 채팅방에 입장하면, 채팅방의 최하단으로 이동합니다.
   useEffect(() => {
     if (!(roomId && currentUser)) {
       return;
@@ -181,6 +185,15 @@ const PageMain: React.FC<PageMainProps> = ({ roomId, currentUser }) => {
 
     mainElementScrollToBottom();
   }, [roomId, currentUser]);
+
+  // Side Effect: 새로운 메시지가 추가되면, 채팅방의 최하단으로 이동합니다.
+  useDidUpdate(() => {
+    if (!lastRequestMessageId) {
+      return;
+    }
+
+    mainElementScrollToBottom();
+  }, [lastRequestMessageId]);
 
   return (
     <MainContainer>
@@ -231,8 +244,8 @@ const PageBottomBar: React.FC<PageBottomBarProps> = ({
 
 export const Component = () => {
   const params = useParams();
-  const currentUser = demoUserId;
   const roomId = params.roomId as string;
+  const currentUser = demoUserId;
 
   const getChatRoomInfoQuery = useGetChatRoomInfo(roomId);
   const getChatRoomMessagesQuery = useGetChatRoomMessages(roomId);
@@ -247,7 +260,7 @@ export const Component = () => {
 
   return (
     <>
-      <PageHeader roomId={roomId} />
+      <PageHeader roomId={roomId} currentUser={currentUser} />
 
       <PageMain roomId={roomId} currentUser={currentUser} />
 
