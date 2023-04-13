@@ -51,7 +51,6 @@ function useSendChatImageMessage(roomId: string, sender: string) {
         // 채팅방 목록 및 채팅방 메시지 쿼리를 무효화합니다.
         queryClient.invalidateQueries({
           queryKey: getChatRoomListQuery.queryKey(sender),
-          refetchType: "none",
         });
 
         queryClient.invalidateQueries({

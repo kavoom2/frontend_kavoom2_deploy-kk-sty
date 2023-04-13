@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import PageLoader from "@/components/PageLoader";
 import {
+  ChatImageGallery,
   ChatImageMessageBox,
   ChatImageMessageUpload,
   ChatRoomAligner,
@@ -10,20 +11,25 @@ import {
   ChatRoomMessageSpacer,
   ChatTextMessageBox,
   useClientSideChat,
+  useGetChatRoomGallery,
   useGetChatRoomInfo,
   useGetChatRoomMessages,
   useSendChatImageMessage,
   useSendChatTextMessage,
 } from "@/features/userChat";
+import CollapsableSubBar from "@/layouts/CollapsableSubBar";
 import MainContainer from "@/layouts/MainContainer/MainContainer";
 import TopAppBar from "@/layouts/TopAppBar/TopAppBar";
 
 import { ReactComponent as BackIcon } from "@/assets/icons/icon-small-back.svg";
 import { ReactComponent as PicturesIcon } from "@/assets/icons/icon-small-pictures.svg";
 import { ReactComponent as SearchIcon } from "@/assets/icons/icon-small-search.svg";
+import Text from "@/components/Text";
 import useDidUpdate from "@/hooks/useDidUpdate";
+import useToggle from "@/hooks/useToggle";
 import { demoUserId } from "@/mockers/chatMock";
 import { mainElementScrollToBottom } from "@/utils/layoutDOM";
+import { AnimatePresence } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
@@ -33,36 +39,78 @@ type PageHeaderProps = {
 };
 
 const PageHeader: React.FC<PageHeaderProps> = ({ roomId, currentUser }) => {
+  // Hooks: 채팅방 페이지 라우팅
   const naviagte = useNavigate();
-
-  const getChatRoomInfoQuery = useGetChatRoomInfo(roomId);
-  const [sendImageMessage] = useSendChatImageMessage(roomId, currentUser);
-
-  const headline = getChatRoomInfoQuery.data?.roomName;
 
   const goToChatRoomListPage = () => {
     naviagte("/list");
   };
 
+  // Hooks: 채팅방 기본 정보 조회
+  const getChatRoomInfoQuery = useGetChatRoomInfo(roomId);
+  const headline = getChatRoomInfoQuery.data?.roomName;
+
+  // Hooks: 채팅방 사진 메시지 전송
+  const [sendImageMessage] = useSendChatImageMessage(roomId, currentUser);
+
+  // Hooks: 이미지 갤러리
+  const [isGalleryOpen, toggleGallery] = useToggle(false);
+  const getChatRoomGalleryQuery = useGetChatRoomGallery(roomId);
+
   return (
-    <TopAppBar
-      headline={headline}
-      leadingNavItems={
-        <Button
-          iconBefore={<BackIcon />}
-          variant="ghost"
-          size="small"
-          onClick={goToChatRoomListPage}
-        />
-      }
-      trailingNavItems={
-        <>
-          <Button iconBefore={<PicturesIcon />} variant="ghost" size="small" />
-          <ChatImageMessageUpload onFileAccepted={sendImageMessage} />
-          <Button iconBefore={<SearchIcon />} variant="ghost" size="small" />
-        </>
-      }
-    />
+    <>
+      <TopAppBar
+        headline={headline}
+        leadingNavItems={
+          <Button
+            iconBefore={<BackIcon />}
+            variant="ghost"
+            size="small"
+            onClick={goToChatRoomListPage}
+          />
+        }
+        // 실제로 사용하지 않는 버튼은 disabled 처리합니다.
+        trailingNavItems={
+          <>
+            <Button
+              iconBefore={<PicturesIcon />}
+              variant="ghost"
+              size="small"
+              onClick={toggleGallery}
+            />
+
+            <ChatImageMessageUpload onFileAccepted={sendImageMessage} />
+
+            <Button
+              iconBefore={<SearchIcon />}
+              variant="ghost"
+              size="small"
+              disabled
+            />
+          </>
+        }
+      />
+
+      <AnimatePresence>
+        {isGalleryOpen && (
+          <CollapsableSubBar key="collapsable-subbar-gallery">
+            <ChatImageGallery>
+              {getChatRoomGalleryQuery.data &&
+                getChatRoomGalleryQuery.data.length === 0 && (
+                  <Text tagAs="p" style={{ color: "white" }}>
+                    사진이 없습니다.
+                  </Text>
+                )}
+
+              {getChatRoomGalleryQuery.data &&
+                getChatRoomGalleryQuery.data?.map((item) => (
+                  <ChatImageGallery.Item key={item.id} src={item.filePath} />
+                ))}
+            </ChatImageGallery>
+          </CollapsableSubBar>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

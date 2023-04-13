@@ -1,4 +1,4 @@
-export async function getImageOriginalSize(
+export function getImageOriginalSize(
   src: string,
 ): Promise<{ width: number; height: number }> {
   return new Promise((resolve) => {

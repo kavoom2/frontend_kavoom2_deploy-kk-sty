@@ -47,7 +47,11 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
   });
 
   return (
-    <nav id="layout-primary-nav" style={mainStyle} className={mainClassNames}>
+    <header
+      id="layout-primary-nav"
+      style={mainStyle}
+      className={mainClassNames}
+    >
       <div ref={leadingMenuRef} className={styles["leading-menu-items"]}>
         {leadingNavItems}
       </div>
@@ -61,7 +65,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
       <div ref={trailingMenuRef} className={styles["trailing-menu-items"]}>
         {trailingNavItems}
       </div>
-    </nav>
+    </header>
   );
 };
 

@@ -1,6 +1,7 @@
 /**
  * Components
  */
+export { default as ChatImageGallery } from "./components/ChatImageGallery";
 export { default as ChatImageMessageBox } from "./components/ChatImageMessageBox";
 export { default as ChatImageMessageUpload } from "./components/ChatImageMessageUpload";
 export { default as ChatListLayout } from "./components/ChatListLayout";
@@ -16,6 +17,7 @@ export { default as ChatTextMessageBox } from "./components/ChatTextMessageBox";
  * Hooks
  */
 export { default as useClientSideChat } from "./hooks/useClientSideChat";
+export { default as useGetChatRoomGallery } from "./hooks/useGetChatRoomGallery";
 export { default as useGetChatRoomInfo } from "./hooks/useGetChatRoomInfo";
 export { default as useGetChatRoomList } from "./hooks/useGetChatRoomList";
 export { default as useGetChatRoomMessages } from "./hooks/useGetChatRoomMessages";

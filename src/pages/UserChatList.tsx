@@ -18,11 +18,22 @@ const PageHeader: React.FC<PageHeaderProps> = () => {
   return (
     <TopAppBar
       headline="채팅"
+      // 실제로 사용하지 않는 버튼은 disabled 처리합니다.
       leadingNavItems={
-        <Button iconBefore={<MenusIcon />} variant="ghost" size="small" />
+        <Button
+          iconBefore={<MenusIcon />}
+          variant="ghost"
+          size="small"
+          disabled
+        />
       }
       trailingNavItems={
-        <Button iconBefore={<UserProfileIcon />} variant="ghost" size="small" />
+        <Button
+          iconBefore={<UserProfileIcon />}
+          variant="ghost"
+          size="small"
+          disabled
+        />
       }
     />
   );

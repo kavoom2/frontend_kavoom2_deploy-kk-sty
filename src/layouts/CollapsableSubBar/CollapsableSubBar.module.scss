@@ -1,0 +1,15 @@
+@use "~@/styles/_variables" as variables;
+
+.main {
+  flex: 0 0 auto;
+
+  position: relative;
+
+  z-index: 900;
+  width: 100%;
+
+  background-color: #{variables.$token-color-purple};
+
+  overflow: hidden;
+  will-change: height;
+}

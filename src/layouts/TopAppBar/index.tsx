@@ -1,1 +1,2 @@
-export { default } from "./TopAppBar";
+import TopAppBar from "./TopAppBar";
+export default TopAppBar;
