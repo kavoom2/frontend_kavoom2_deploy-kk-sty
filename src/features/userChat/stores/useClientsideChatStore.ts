@@ -9,15 +9,23 @@ type PendingImageMessage = ImageMessage & {
   callId: string;
 };
 
+export type ClientSideChatRoom = {
+  /**
+   * 마지막으로 메시지를 요청한 시간입니다.
+   */
+  lastMessageRequsetedAt: number | null;
+  /**
+   * 클라이언트에서 전송 중인 메시지 목록입니다.
+   */
+  messages: (PendingTextMessage | PendingImageMessage)[];
+};
+
 export interface ClientsideChatStore {
   /**
    * 클라이언트에서 사용할 채팅방에 대한 로컬 데이터입니다.
    */
   roomMap: {
-    [roomId: string]: {
-      lastRequestMessageId: string | null;
-      messages: (PendingTextMessage | PendingImageMessage)[];
-    };
+    [roomId: string]: ClientSideChatRoom;
   };
 
   /**
@@ -69,7 +77,7 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
         const roomMap = {
           ...state.roomMap,
           [roomId]: {
-            lastRequestMessageId: null,
+            lastMessageRequsetedAt: null,
             messages: [],
           },
         };
@@ -84,7 +92,7 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
           ...state.roomMap,
           [roomId]: {
             ...state.roomMap[roomId],
-            lastRequestMessageId: message.callId,
+            lastMessageRequsetedAt: Date.now(),
             messages: [...state.roomMap[roomId].messages, message],
           },
         };
@@ -99,7 +107,7 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
           ...state.roomMap,
           [roomId]: {
             ...state.roomMap[roomId],
-            lastRequestMessageId: message.callId,
+            lastMessageRequsetedAt: Date.now(),
             messages: [...state.roomMap[roomId].messages, message],
           },
         };

@@ -73,7 +73,7 @@ type PageMainProps = {
 
 const PageMain: React.FC<PageMainProps> = ({ roomId, currentUser }) => {
   const getChatRoomMessagesQuery = useGetChatRoomMessages(roomId);
-  const { messages: clientSideMessages, lastRequestMessageId } =
+  const { messages: clientSideMessages, lastMessageRequsetedAt } =
     useClientSideChat(roomId);
 
   const chatMessageNodes = getChatRoomMessagesQuery.data?.map((item, idx) => {
@@ -188,12 +188,12 @@ const PageMain: React.FC<PageMainProps> = ({ roomId, currentUser }) => {
 
   // Side Effect: 새로운 메시지가 추가되면, 채팅방의 최하단으로 이동합니다.
   useDidUpdate(() => {
-    if (!lastRequestMessageId) {
+    if (!lastMessageRequsetedAt) {
       return;
     }
 
     mainElementScrollToBottom();
-  }, [lastRequestMessageId]);
+  }, [lastMessageRequsetedAt]);
 
   return (
     <MainContainer>
