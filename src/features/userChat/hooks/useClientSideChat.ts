@@ -1,11 +1,20 @@
-import useClientsideChatStore from "@/features/userChat/stores/useClientsideChatStore";
+import useClientsideChatStore, {
+  createInitialClientChatRoom,
+} from "@/features/userChat/stores/useClientsideChatStore";
+import { useEffect } from "react";
 
 function useClientSideChat(roomId: string) {
   const roomMap = useClientsideChatStore((state) => state.roomMap);
-  const room = roomMap[roomId] || {
-    messages: [],
-    lastMessageRequsetedAt: null,
-  };
+
+  const initClientChatRoom = useClientsideChatStore(
+    (state) => state.initClientChatRoom,
+  );
+
+  const room = roomMap[roomId] || createInitialClientChatRoom();
+
+  useEffect(() => {
+    roomId && initClientChatRoom(roomId);
+  }, [roomId, initClientChatRoom]);
 
   return room;
 }

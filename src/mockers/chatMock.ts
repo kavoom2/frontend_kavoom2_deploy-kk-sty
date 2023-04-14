@@ -42,7 +42,9 @@ export type UserData = {
 
 export const demoUserId = "user-0";
 
-const userDatas: Record<string, UserData> = {
+export const demoRoomId = "room-1";
+
+const initializeUserDatas = (): Record<string, UserData> => ({
   [demoUserId]: {
     name: "John Doe",
     profilePicture: "https://avatars.githubusercontent.com/u/22580992?v=4",
@@ -55,10 +57,12 @@ const userDatas: Record<string, UserData> = {
     name: "George",
     profilePicture: "https://avatars.githubusercontent.com/u/22580994?v=4",
   },
-};
+});
 
-const chatRoomsDatas: Record<string, ChatRoomData> = {
-  "room-1": {
+let userDatas: Record<string, UserData> = initializeUserDatas();
+
+const initializeChatRoomsDatas = (): Record<string, ChatRoomData> => ({
+  [demoRoomId]: {
     roomName: userDatas["user-1"].name,
     users: [demoUserId, "user-1"],
     messages: [
@@ -126,8 +130,10 @@ const chatRoomsDatas: Record<string, ChatRoomData> = {
         id: "message-128",
         sender: "user-1",
         message: {
-          type: "text",
-          text: "What about you?",
+          type: "image",
+          filePath: "https://avatars.githubusercontent.com/u/22580992?v=4",
+          width: 460,
+          height: 460,
         },
         timestamp: "2023-04-11T13:19:01.000Z",
         readBy: ["user-1"],
@@ -172,7 +178,14 @@ const chatRoomsDatas: Record<string, ChatRoomData> = {
       },
     ],
   },
-};
+});
+
+let chatRoomsDatas: Record<string, ChatRoomData> = initializeChatRoomsDatas();
+
+export function initializeMockDatas() {
+  userDatas = initializeUserDatas();
+  chatRoomsDatas = initializeChatRoomsDatas();
+}
 
 export type ChatRoom = {
   id: string;

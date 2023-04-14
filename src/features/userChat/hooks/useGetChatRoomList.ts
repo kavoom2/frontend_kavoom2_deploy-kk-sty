@@ -3,7 +3,9 @@ import { ChatRoom } from "@/mockers/chatMock";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 
-type GetChatRoomListQuerySelector<TData = ChatRoom[]> = (data: TData) => TData;
+export type GetChatRoomListQuerySelector<TData = ChatRoom[]> = (
+  data: TData,
+) => TData;
 
 function useGetChatRoomList(userId: string) {
   const getQuery = useQuery(

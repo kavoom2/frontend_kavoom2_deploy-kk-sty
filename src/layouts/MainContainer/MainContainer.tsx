@@ -1,7 +1,7 @@
 import styles from "./MainContainer.module.scss";
 
 export interface MainContainerProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const MainContainer: React.FC<MainContainerProps> = ({ children }) => {

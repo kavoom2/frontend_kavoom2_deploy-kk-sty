@@ -3,13 +3,15 @@ import { ChatMessage } from "@/mockers/chatMock";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 
-type GalleryImage = Pick<ChatMessage, "id" | "timestamp"> & {
+export type GalleryImage = Pick<ChatMessage, "id" | "timestamp"> & {
   filePath: string;
 };
 
-type GetChatRoomMessageQuerySelector<TData = ChatMessage[]> = (
+export type GetChatRoomMessageQueryData = GalleryImage[];
+
+export type GetChatRoomMessageQuerySelector<TData = ChatMessage[]> = (
   data: TData,
-) => GalleryImage[];
+) => GetChatRoomMessageQueryData;
 
 function useGetChatRoomGallery(roomId: string) {
   const getQuery = useQuery(

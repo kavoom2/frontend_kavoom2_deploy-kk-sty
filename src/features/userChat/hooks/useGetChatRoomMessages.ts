@@ -1,26 +1,21 @@
 import getChatRoomMessagesQuery from "@/features/userChat/queries/getChatRoomMessages";
-import useClientsideChatStore from "@/features/userChat/stores/useClientsideChatStore";
 import { ChatMessage } from "@/mockers/chatMock";
 import { getDateAndTimeFromTimestamp } from "@/utils/dateFormatter";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 
-type ChatRoomMessage = ChatMessage & {
+export type ChatRoomMessage = ChatMessage & {
   sendedDate: string;
   sendedTime: string;
 };
 
-type GetChatRoomMessagesQueryData = ChatRoomMessage[];
+export type GetChatRoomMessagesQueryData = ChatRoomMessage[];
 
-type GetChatRoomMessageQuerySelector<TData = ChatMessage[]> = (
+export type GetChatRoomMessageQuerySelector<TData = ChatMessage[]> = (
   data: TData,
 ) => GetChatRoomMessagesQueryData;
 
 function useGetChatRoomMessages(roomId: string) {
-  const initClientChatRoom = useClientsideChatStore(
-    (state) => state.initClientChatRoom,
-  );
-
   const getQuery = useQuery(
     getChatRoomMessagesQuery.queryKey(roomId),
     getChatRoomMessagesQuery.queryFn(roomId),
@@ -49,14 +44,6 @@ function useGetChatRoomMessages(roomId: string) {
       }, []),
     },
   );
-
-  useEffect(() => {
-    if (!roomId) {
-      return;
-    }
-
-    initClientChatRoom(roomId);
-  }, [roomId, initClientChatRoom]);
 
   return getQuery;
 }

@@ -36,10 +36,12 @@ function useSendChatTextMessage(roomId: string, sender: string) {
           getChatRoomMessagesQuery.queryKey(roomId),
         ) as ChatMessage[];
 
-        queryClient.setQueryData(
-          getChatRoomMessagesQuery.queryKey(roomId),
-          getOptimisticChatMessages(previousChatMessages, data),
-        );
+        if (previousChatMessages) {
+          queryClient.setQueryData(
+            getChatRoomMessagesQuery.queryKey(roomId),
+            getOptimisticChatMessages(previousChatMessages, data),
+          );
+        }
 
         // 채팅방 목록 및 채팅방 메시지 쿼리를 무효화합니다.
         queryClient.invalidateQueries({

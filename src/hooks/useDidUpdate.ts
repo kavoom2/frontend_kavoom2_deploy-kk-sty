@@ -13,7 +13,7 @@ const useDidUpdate = (
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [...(deps || [])],
+    deps,
   );
 
   useEffect(() => {

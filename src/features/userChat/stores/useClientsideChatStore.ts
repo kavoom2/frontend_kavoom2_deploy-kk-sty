@@ -62,6 +62,11 @@ export interface ClientsideChatStore {
   destroyClientChatRoom: (roomId: string) => void;
 }
 
+export const createInitialClientChatRoom = (): ClientSideChatRoom => ({
+  lastMessageRequsetedAt: null,
+  messages: [],
+});
+
 const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
   return {
     roomMap: {},
@@ -76,10 +81,7 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
       set((state) => {
         const roomMap = {
           ...state.roomMap,
-          [roomId]: {
-            lastMessageRequsetedAt: null,
-            messages: [],
-          },
+          [roomId]: createInitialClientChatRoom(),
         };
 
         return { roomMap };
@@ -87,6 +89,12 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
     },
 
     addPendingTextMessage: (roomId: string, message: PendingTextMessage) => {
+      const room = get().roomMap[roomId];
+
+      if (!room) {
+        return;
+      }
+
       set((state) => {
         const roomMap = {
           ...state.roomMap,
@@ -102,6 +110,12 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
     },
 
     addPendingImageMessage: (roomId: string, message: PendingImageMessage) => {
+      const room = get().roomMap[roomId];
+
+      if (!room) {
+        return;
+      }
+
       set((state) => {
         const roomMap = {
           ...state.roomMap,
@@ -117,6 +131,12 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
     },
 
     removePendingTextMessage: (roomId: string, callId: string) => {
+      const room = get().roomMap[roomId];
+
+      if (!room) {
+        return;
+      }
+
       set((state) => {
         const roomMap = {
           ...state.roomMap,
@@ -137,6 +157,12 @@ const useClientsideChatStore = create<ClientsideChatStore>((set, get) => {
     },
 
     removePendingImageMessage: (roomId: string, callId: string) => {
+      const room = get().roomMap[roomId];
+
+      if (!room) {
+        return;
+      }
+
       set((state) => {
         const roomMap = {
           ...state.roomMap,

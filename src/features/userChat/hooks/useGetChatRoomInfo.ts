@@ -3,7 +3,7 @@ import { ChatRoomInfo } from "@/mockers/chatMock";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 
-type UserTable = {
+export type UserTable = {
   [id: string]: {
     id: string;
     name: string;
@@ -11,9 +11,9 @@ type UserTable = {
   };
 };
 
-type GetChatRoomInfoQueryData = ChatRoomInfo & { userTable: UserTable };
+export type GetChatRoomInfoQueryData = ChatRoomInfo & { userTable: UserTable };
 
-type GetChatRoomInfoQuerySelector<TData = ChatRoomInfo> = (
+export type GetChatRoomInfoQuerySelector<TData = ChatRoomInfo> = (
   data: TData,
 ) => GetChatRoomInfoQueryData;
 

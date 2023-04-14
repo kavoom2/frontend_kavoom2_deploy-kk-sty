@@ -48,7 +48,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({
 
   return (
     <header
-      id="layout-primary-nav"
+      id="layout-primary-header"
       style={mainStyle}
       className={mainClassNames}
     >

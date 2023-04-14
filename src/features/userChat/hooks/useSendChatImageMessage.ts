@@ -27,14 +27,14 @@ function useSendChatImageMessage(roomId: string, sender: string) {
         queryClient.cancelQueries(getChatRoomMessagesQuery.queryKey(roomId));
 
         const filePath = URL.createObjectURL(variables.file);
-        const { width, height } = await getImageOriginalSize(filePath);
+        const sizes = await getImageOriginalSize(filePath);
 
         addPendingImageMessage(roomId, {
           type: "image",
           callId: variables.callId,
           filePath,
-          width,
-          height,
+          width: sizes?.width || 0,
+          height: sizes?.height || 0,
         });
       },
       onSuccess: (data) => {
@@ -43,10 +43,12 @@ function useSendChatImageMessage(roomId: string, sender: string) {
           getChatRoomMessagesQuery.queryKey(roomId),
         ) as ChatMessage[];
 
-        queryClient.setQueryData(
-          getChatRoomMessagesQuery.queryKey(roomId),
-          getOptimisticChatMessages(previousChatMessages, data),
-        );
+        if (previousChatMessages) {
+          queryClient.setQueryData(
+            getChatRoomMessagesQuery.queryKey(roomId),
+            getOptimisticChatMessages(previousChatMessages, data),
+          );
+        }
 
         // 채팅방 목록 및 채팅방 메시지 쿼리를 무효화합니다.
         queryClient.invalidateQueries({
