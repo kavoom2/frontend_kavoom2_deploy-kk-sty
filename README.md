@@ -314,7 +314,7 @@ const mutation = useMutation(
 
 ## ❤️‍🩹 개선해야 할 점
 
-#### 1. [iOS 환경에서 Keyboard 사용에 따른 Layout 이슈]()
+#### 1. [iOS 환경에서 Keyboard 사용에 따른 Layout 이슈](https://blog.opendigerati.com/the-eccentric-ways-of-ios-safari-with-the-keyboard-b5aa3f34228d)
 
 iOS 브라우저에서 input 필드를 포커스하면 화면 하단에 키보드가 올라옵니다. 이때, 키보드가 올라오면서 브라우저의 창의 크기가 줄어드는 것이 아닌 부분적으로 화면을 벗어나도록 위쪽으로 이동합니다.
 (제목 링크의 블로그에 관련 이미지를 확인하실 수 있습니다.)
