@@ -5,9 +5,7 @@ $nav-container-spacing-y: calc(2 * #{variables.$token-spacing-xxs});
 $item-gap: calc(#{variables.$token-spacing-xxs} * 1);
 
 .main {
-  flex: 0 0 auto;
-
-  position: relative;
+  position: fixed;
 
   z-index: 1000;
   width: 100%;
