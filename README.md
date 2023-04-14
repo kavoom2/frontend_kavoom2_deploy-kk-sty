@@ -287,6 +287,7 @@ img {
 
 ```ts
 // @features/userChat/hooks/useSendChatImageMessage.ts
+
 const mutation = useMutation(
   sendChatImageMessageQuery.queryKey(),
   sendChatImageMessageQuery.queryFn(roomId, sender),
@@ -311,4 +312,23 @@ const mutation = useMutation(
 );
 ```
 
-## 개선해야할 점
+## ❤️‍🩹 개선해야할 점
+
+#### 1. [iOS 환경에서 Keyboard 사용에 따른 Layout 이슈]()
+
+iOS 브라우저에서 input 필드를 포커스하면 화면 하단에 키보드가 올라옵니다. 이 때, 키보드가 올라오면서 브라우저의 창의 크기가 줄어드는 것이 아닌 부분적으로 화면을 벗어나도록 위쪽으로 이동합니다.
+(제목 링크의 블로그에 관련 이미지를 확인하실 수 있습니다.)
+
+이를 임시로 대응하고자 다음과 같은 두 가지 방법을 사용하였습니다.
+
+1. [VisualViewport](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport) API를 사용하여 resize 이벤트가 발생했을 때 실제 사용자에게 보이는 Viewport를 Body요소에 적용하도록 하였습니다. 또한, Body 요소의 스크롤을 제한하고, Main 요소에서 스크롤이 가능하도록 하였습니다.
+
+2. 채팅방 화면에서 메시지 입력창이 있는 하단 BottomBar를 iOS 환경에서는 TouchMove 이벤트의 기본 동작을 사용하지 못하도록 하였습니다.
+
+위 방법을 적용하여 iOS 환경에서 UI의 사용성을 개선할 수는 있었지만, 기능 개선 및 변경에 따라 유연하게 대응할 수 없다는 문제점을 개선할 필요가 있습니다.
+
+#### 2. Mock 메서드를 생성하여 구현한 채팅 기능
+
+메신저는 실시간으로 여러 사용자의 메시지를 보여주는 것이 핵심인 서비스라고 생각합니다. 이에 필요한 `WebSocket`을 사용하지 않고, `Promise`와 `setTimeout`으로 서버의 요청에 대한 응답을 모방하여 구현하였습니다. 그러다보니 가장 핵심적인 부분에 대한 구현이 누락되어 있다고 느꼈습니다.
+
+WebSocket 서버를 직접 구성하지 못한 스스로에 대한 실력에 아쉬움이 많이 남았습니다. :(
